@@ -54,11 +54,11 @@ from (0 0) to (9 9).
 
 
 
-;the next two functions make it easy to get the first x and y value from the first list of lists
-;	ex.		( (3 5) (6 7) (8 9))		input into get-first-x-value function would return 3
-;													and the same list input into the get-first-y-value function
-;													will return 5. The example input is impossible and is only like that
-;													so that its easier to understand.
+;     the next two functions make it easy to get the first x and y value from the first list of lists
+;   ex. ( (3 5) (6 7) (8 9)) ---  input into get-first-x-value function would return 3
+;   and the same list input into the get-first-y-value function
+;   will return 5. The example input is impossible (I forgot why) and is only like that
+;   so that its easier to understand what the function does.
 (defun get-first-x-value (	list-of-lists-of-coords)
 	(first (first list-of-lists-of-coords)))
 	
@@ -70,19 +70,18 @@ from (0 0) to (9 9).
 ;The function also removes square that have a hole or have been visited.
 (defun remove-invalid-moves (list-of-future-coordinates)
 
-   (cond ((null list-of-future-coordinates) nil)
-            ((OR  (minusp (get-first-x-value list-of-future-coordinates))					;test if either x or y value is negative
-                  (minusp (get-first-y-value list-of-future-coordinates))
-                  (> (get-first-x-value list-of-future-coordinates) 7)						;test if either x or y is greater than 7
-		            (> (get-first-y-value list-of-future-coordinates) 7)
-                  (have-i-visited-this-square (first list-of-future-coordinates) places-already-visited)  ;test if any future square has been visited
-						(have-i-found-hole (first list-of-future-coordinates) hole))			;test if there's a hole in a future square
-						(remove-invalid-moves (rest list-of-future-coordinates)))	;calls the same function without passing the first thing in the list. Which 
-																										;is not valid
+  (cond ((null list-of-future-coordinates) nil)
+
+	((OR  (minusp (get-first-x-value list-of-future-coordinates))        ;test if either x or y value is negative
+              (minusp (get-first-y-value list-of-future-coordinates))
+              (> (get-first-x-value list-of-future-coordinates) 7)	     ;test if either x or y is greater than 7
+	      (> (get-first-y-value list-of-future-coordinates) 7)
+              (have-i-visited-this-square (first list-of-future-coordinates) places-already-visited)  ;test if any future square has been visited
+	      (have-i-found-hole          (first list-of-future-coordinates) hole))		      ;test if there's a hole in a future square
+	        (remove-invalid-moves (rest list-of-future-coordinates)))    ;calls the same function without passing the first thing in the list. Which is not valid
 																						
-	       (t																						;else the coordinate at the beginning is valid and keep it, pass the rest of the list
-	          (cons (first list-of-future-coordinates)									;to the same function
-	             (remove-invalid-moves (rest list-of-future-coordinates))))))
+	      (t							     ;else the coordinate at the beginning is valid and keep it, pass the rest of the list
+	        (cons (first list-of-future-coordinates) (remove-invalid-moves (rest list-of-future-coordinates))))))     ;to the same function 
 																										
 	
 	
