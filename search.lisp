@@ -1,58 +1,61 @@
 #|
-Name:			Alex Elizalde
-Class:		CSCE 3210
-Instructor:	Dr. Swigger
-Program:		Search Program
+
+Name:        Alex Elizalde
+Class:	     CSCE 3210
+Instructor:  Dr. Swigger
+Program:     Search Program
 
 General Description:
-The program uses a coordinate system that's similar to how math functions are  graphed 
+The program uses a coordinate system that's similar to how math functions are graphed 
 (x, y). Positive x values correspond to the character going "East" and positive y values correspond
 to the character going "North". The grid will be 7 x 7, The range of the grid will be
 from (0 0) to (9 9).
+
 |#
 
 
 ;initialize the gold, hole, and water squares
 (defun initialize ()
-   (setf gold  '((5 3)) )
-   (setf hole  '((2 3) (1 3) (0 3) (4 0 ) (4 1) (4 2)))
-   (setf water '((0 0) (1 0) (2 0)) )
-   (setf places-already-visited nil )
-	(setf which-search-to-use nil)
-	(setf start-state nil)
+  (setf gold  '((5 3)) )
+  (setf hole  '((2 3) (1 3) (0 3) (4 0 ) (4 1) (4 2)))
+  (setf water '((0 0) (1 0) (2 0)) )
+  (setf places-already-visited nil )
+
+  (setf which-search-to-use nil)
+  (setf start-state nil)
+  (setf total-cost 0)
+  (setf nodes-expanded 0)
+  (setf final-list-of-nodes nil)
 	
-	(setf total-cost 0)
-	(setf nodes-expanded 0)
-	(setf final-list-of-nodes nil)
 	
+  (princ "Input breadth-first or cost-first -->>")
+  (setf which-search-to-use (read))
+  (princ "Input a start state eg. (3 5) -->>")
+  (setf start-state (read))
 	
-	(princ "Input breadth-first or cost-first -->>")
-	(setf which-search-to-use (read))
-	(princ "Input a start state eg. (3 5) -->>")
-	(setf start-state (read))
-	
-	(cond ((equal which-search-to-use 'breadth-first)
-	          (breadth-first start-state)))
-	(format t "The total cost is ->~A ~%" total-cost);(princ "The total cost is ->")
+  (cond ((equal which-search-to-use 'breadth-first)
+	 (breadth-first start-state)))
+
+  (format t "The total cost is ->~A ~%" total-cost);(princ "The total cost is ->")
 	;(write total-cost)
 	;(princ "Total nodes expanded ->")
-	(format t "Total nodes expanded ->~A ~%" nodes-expanded) 
+  (format t "Total nodes expanded ->~A ~%" nodes-expanded) 
 	;(write nodes-expanded)
 	;(write final-list-of-nodes))
-	(format t "Final path ->~A ~%" final-list-of-nodes)) 
+  (format t "Final path ->~A ~%" final-list-of-nodes)) 
 	
 ;calculate the cost by checking if the squares that have been visited are water tiles or not.
 (defun calculate-cost (complete-list)
 
-   (cond ((null complete-list) 0)
-			((have-i-found-water (first complete-list) water)
+  (cond ((null complete-list) 0)
+	((have-i-found-water (first complete-list) water)
             (+ 2 (calculate-cost (rest complete-list))))
          (t (+ 1 (calculate-cost (rest complete-list))))))				
 
 
 
 ;the next two functions make it easy to get the first x and y value from the first list of lists
-;		ex.		( (3 5) (6 7) (8 9))		input into get-first-x-value function would return 3
+;	ex.		( (3 5) (6 7) (8 9))		input into get-first-x-value function would return 3
 ;													and the same list input into the get-first-y-value function
 ;													will return 5. The example input is impossible and is only like that
 ;													so that its easier to understand.
