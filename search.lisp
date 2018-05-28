@@ -14,7 +14,7 @@ from (0 0) to (9 9).
 |#
 
 
-;initialize the gold, hole, and water squares
+;  initialize the gold, hole, and water squares
 (defun initialize ()
   (setf gold  '((5 3)) )
   (setf hole  '((2 3) (1 3) (0 3) (4 0 ) (4 1) (4 2)))
@@ -86,44 +86,44 @@ from (0 0) to (9 9).
 	
 	
 	
-;			sample input (generate-moves '(3 5) is used throughout the function
-;			mc stands for main character
+;   sample input (generate-moves '(3 5) is used throughout the function
+;   mc stands for main character
 (defun generate-moves (coordinate-of-mc)
 
-	;make the variable to hold all the possible coordinates
-   (let* (list-of-possible-coordinates)
+  ;make the variable to hold all the possible coordinates
+  (let* (list-of-possible-coordinates)
    
-   ;;generate the 4 possible coordinates
+  ;;generate the 4 possible coordinates
    
-   ;	do	(x + 1, y) for line 55 and add it to the list-of-possible-coordinates
-   ;	input of '(3 5)  will result in ((4 5))
-   ;						x + 1								y
-   (setq list-of-possible-coordinates
-		(cons (list (+ 1 (first coordinate-of-mc))  (second coordinate-of-mc))
-			list-of-possible-coordinates)) 
+  ;     do (x + 1, y) and add it to the list-of-possible-coordinates
+  ;	input of '(3 5)  will result in ((4 5))
+  ;	x + 1	y
+    (setq list-of-possible-coordinates
+	  (cons (list (+ 1 (first coordinate-of-mc))  (second coordinate-of-mc))
+		list-of-possible-coordinates)) 
    
    ;	do (x, y + 1)
    ;	add (3 6) to the list. The new list is ((3 6) (4 5))
    (setq list-of-possible-coordinates
-		(cons (list (first coordinate-of-mc) (+ 1 (second coordinate-of-mc)))
-			list-of-possible-coordinates)) 
+	 (cons (list (first coordinate-of-mc) (+ 1 (second coordinate-of-mc)))
+	       list-of-possible-coordinates)) 
 
-	;	do (x - 1, y)
-	;	add (2 5) to the list. The new list is ((2 5) (3 6) (4 5))
-	(setq list-of-possible-coordinates
-		(cons (list (- (first coordinate-of-mc) 1) (second coordinate-of-mc))
-			list-of-possible-coordinates))
+   ;	do (x - 1, y)
+   ;	add (2 5) to the list. The new list is ((2 5) (3 6) (4 5))
+   (setq list-of-possible-coordinates
+	 (cons (list (- (first coordinate-of-mc) 1) (second coordinate-of-mc))
+	       list-of-possible-coordinates))
 	
-	;	do (x , y - 1)
-	;	add (3 4) to the list. The new list is ((3 4) (2 5) (3 6) (4 5))
-	(setq list-of-possible-coordinates
-		(cons (list (first coordinate-of-mc) (- (second coordinate-of-mc) 1))
-			list-of-possible-coordinates))
+   ;	do (x , y - 1)
+   ;	add (3 4) to the list. The new list is ((3 4) (2 5) (3 6) (4 5))
+   (setq list-of-possible-coordinates
+	 (cons (list (first coordinate-of-mc) (- (second coordinate-of-mc) 1))
+	       list-of-possible-coordinates))
 			
 			
-	;now input the list to the function remove-invalid-moves to get rid of the invalid moves
-	(setq list-of-possible-coordinates
-		(remove-invalid-moves list-of-possible-coordinates))   ))
+   ;    now input the list to the function remove-invalid-moves to get rid of the invalid moves
+   (setq list-of-possible-coordinates
+	 (remove-invalid-moves list-of-possible-coordinates))   ))
 	
 	
 ;the function compares two things
